@@ -14,7 +14,7 @@ export default function Timer({ duration, onTimeUp }: { duration: number; onTime
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
-  const isUrgent = time <= 300; // 5 minutes or less
+  const isUrgent = time <= 60; // 1 minute or less
 
   return (
     <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${

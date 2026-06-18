@@ -14,8 +14,8 @@ export default function Test() {
   const [isLoading, setIsLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Calculate total time: 30 seconds per question
-  const totalTime = questions.length * 30;
+  // Calculate total time: 20 seconds per question
+  const totalTime = questions.length * 20;
 
   useEffect(() => {
     console.info("[Test] Mount", { testId, chapter, conceptsCount: concepts?.length, difficulty });

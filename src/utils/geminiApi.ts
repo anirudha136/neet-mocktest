@@ -30,7 +30,7 @@ Difficulty: ${difficulty}`;
   try {
     console.debug("[Gemini] Requesting questions", { chapter, conceptsCount: concepts.length, difficulty });
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [{ role: "user", parts: [{ text: prompt }] }]
       },

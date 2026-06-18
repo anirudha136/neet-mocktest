@@ -9,6 +9,7 @@ export default function Home() {
   const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("easy");
   const [isLoading, setIsLoading] = useState(false);
   const [recent, setRecent] = useState<Array<{ id: string; score: number; max: number }>>([]);
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
 
   useEffect(() => {
     try {
@@ -18,6 +19,27 @@ export default function Home() {
     } catch (e) {
       console.error("[Home] Failed to load recent tests", e);
     }
+  }, []);
+
+  // Visitor counter using countapi.xyz with local fallback
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("https://api.countapi.xyz/hit/neet-mocktest/homepage");
+        const data = await res.json();
+        if (!cancelled) setVisitorCount(Number(data?.value) || null);
+      } catch {
+        // Fallback: device-only counter
+        try {
+          const k = "neet_device_visits";
+          const n = Number(localStorage.getItem(k) || "0") + 1;
+          localStorage.setItem(k, String(n));
+          if (!cancelled) setVisitorCount(n);
+        } catch {}
+      }
+    })();
+    return () => { cancelled = true; };
   }, []);
 
   const handleStart = async () => {
@@ -50,6 +72,12 @@ export default function Home() {
         <div className="text-center mb-6">
           <h1 className="text-4xl font-black text-[#1877f2]">NEET Mock</h1>
           <p className="text-gray-600">Practice biology with curated questions</p>
+          {visitorCount !== null && (
+            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-gray-700 text-xs shadow-sm">
+              <span>Visitors</span>
+              <span className="font-semibold">{visitorCount}</span>
+            </div>
+          )}
         </div>
 
         {/* Main Card */}
